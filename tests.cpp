@@ -768,7 +768,7 @@ void testIteratorsEmpty()
 
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIteratorsEmprty");
+    myProgressBar.addToOutputMsg("PASS = testIteratorsEmpty");
     myProgressBar++;
     #endif
 }
