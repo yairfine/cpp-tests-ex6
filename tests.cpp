@@ -35,7 +35,7 @@
 #endif
 
 
-void testDefaultConstruct();
+void testDefaultConstructor();
 void testAt();
 void testConstructor1();
 void testConstructor1Capacity();
@@ -66,7 +66,7 @@ int main()
     auto start = std::chrono::steady_clock::now();
 
 
-    testDefaultConstruct();
+    testDefaultConstructor();
     testAt();
     testConstructor1();
     testConstructor1Capacity();
@@ -98,7 +98,7 @@ int main()
     return 0;
 }
 
-void testDefaultConstruct()
+void testDefaultConstructor()
 {
     HashMap<KeyString, ValueInt> map;
 
@@ -107,7 +107,7 @@ void testDefaultConstruct()
     assert(map.empty() == true);
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS - testDefaultConstruct");
+    myProgressBar.addToOutputMsg("PASS - testDefaultConstructor");
     myProgressBar++;
     #endif
 }
