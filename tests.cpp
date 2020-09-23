@@ -22,13 +22,13 @@
 
 #define ITERATIONS 8
 #define I_UPPER_BOUND 100
-#define TOTAL_WORK 58
+#define TOTAL_WORK 59
 
 #else
 
 #define ITERATIONS 17
 #define I_UPPER_BOUND 1000
-#define TOTAL_WORK 94
+#define TOTAL_WORK 95
 
 #endif
 
