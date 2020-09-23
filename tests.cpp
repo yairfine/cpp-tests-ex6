@@ -273,12 +273,6 @@ void testConstructor1Dereferencing()
 
     InputIterator<int> inputIter(vector);
 
-    auto keys_input_iterator_begin = inputIter.begin();
-    auto keys_input_iterator_end = inputIter.end();
-
-    auto values_input_iterator_begin = inputIter.begin();
-    auto values_input_iterator_end = inputIter.end();
-
     try
     {
         HashMap<int, int> map(inputIter.begin(), inputIter.end(),
@@ -433,6 +427,7 @@ void testClear()
     map.insert(1, 1);
 
     // checking capacity resizing rules
+    // in insert you only resize up, and in erase you only resize down
 
     // after every insert, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
     assert(map.size() == 1);
