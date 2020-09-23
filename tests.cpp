@@ -133,12 +133,12 @@ void testAt()
     assert(map.at("d") == 4);
     assert(map.at("e") == 5);
 
-    // checking func 'at' is assinable:
+    // check 'at' is assignable:
     map.at("a") = 100;
     assert(map.at("a") == 100);
     assert (map.size() == 5);
 
-    // checking non-existing key:
+    // check non-existing key:
     try
     {
         map.at("f") = 6;
