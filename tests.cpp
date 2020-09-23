@@ -337,7 +337,7 @@ void testOperatorAssignment()
 
 void testCopyConstructor()
 {
-      std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"};
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"};
     std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
     HashMap<std::string, int> map1(keys.begin(), keys.end(), values.begin(), values.end());
