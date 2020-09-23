@@ -61,7 +61,6 @@ void testIterators3();
 void testIterators4();
 void testIterators5();
 
-
 ProgressBar myProgressBar(TOTAL_WORK);
 
 int main()
@@ -97,7 +96,6 @@ int main()
     testIterators3();
     testIterators4();
     testIterators5();
-
 
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
@@ -1152,7 +1150,7 @@ void testIterators5()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators5                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators5                             \n");
     myProgressBar++;
     #endif
 }
