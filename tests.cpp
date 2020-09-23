@@ -105,7 +105,7 @@ int main()
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
     
     std::cout << std::endl << std::endl << "Time elapsed: " << elapsed_seconds << " seconds" << std::endl;
-    std::cout << std::endl << "~~~~~~ All tests were PASSED ~~~~~~" << std::endl;
+    std::cout << std::endl << "~~~~~~ All tests were PASSED (ಠ‿ಠ) ~~~~~~" << std::endl;
 
     return 0;
 }
@@ -989,7 +989,7 @@ void testIteratorsEmpty()
 
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIteratorsEmpty");
+    myProgressBar.addToOutputMsg("PASS - testIteratorsEmpty");
     myProgressBar++;
     #endif
 }
@@ -1024,7 +1024,7 @@ void testIterators1()
 
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators1");
+    myProgressBar.addToOutputMsg("PASS - testIterators1");
     myProgressBar++;
     #endif
 }
@@ -1083,7 +1083,7 @@ void testIterators2()
 
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators2");
+    myProgressBar.addToOutputMsg("PASS - testIterators2");
     myProgressBar++;
     #endif
 }
@@ -1109,7 +1109,7 @@ void testIterators3()
 
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators3");
+    myProgressBar.addToOutputMsg("PASS - testIterators3");
     myProgressBar++;
     #endif
 }
@@ -1135,7 +1135,7 @@ void testIterators4()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators4");
+    myProgressBar.addToOutputMsg("PASS - testIterators4");
     myProgressBar++;
     #endif
 }
@@ -1158,7 +1158,7 @@ void testIterators5()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators5");
+    myProgressBar.addToOutputMsg("PASS - testIterators5");
     myProgressBar++;
     #endif
 }
@@ -1178,7 +1178,7 @@ void testIterators6()
     assert(d == 12);
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators6                             \n");
+    myProgressBar.addToOutputMsg("PASS - testIterators6                             \n");
     myProgressBar++;
     #endif
 }
