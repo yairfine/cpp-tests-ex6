@@ -22,13 +22,13 @@
 
 #define ITERATIONS 8
 #define I_UPPER_BOUND 100
-#define TOTAL_WORK 63
+#define TOTAL_WORK 64
 
 #else
 
 #define ITERATIONS 17
 #define I_UPPER_BOUND 1000
-#define TOTAL_WORK 99
+#define TOTAL_WORK 100
 
 #endif
 
@@ -60,6 +60,8 @@ void testIterators2();
 void testIterators3();
 void testIterators4();
 void testIterators5();
+void testIterators6();
+
 
 ProgressBar myProgressBar(TOTAL_WORK);
 
@@ -96,6 +98,8 @@ int main()
     testIterators3();
     testIterators4();
     testIterators5();
+    testIterators6(); // compilation test - added iterator-traits
+
 
     auto finish = std::chrono::steady_clock::now();
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::duration<double> >(finish - start).count();
@@ -1154,7 +1158,27 @@ void testIterators5()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators5                             \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators5");
+    myProgressBar++;
+    #endif
+}
+
+void testIterators6()
+{
+    // this test is a COMPILATION TEST
+    // check whether you added iterator-traits (the 5 typedefs)
+
+    std::vector<int> keysInt = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    int d = std::distance(map.begin(), map.end());
+    assert(d == 12);
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators6                             \n");
     myProgressBar++;
     #endif
 }
