@@ -28,7 +28,7 @@
 
 #define ITERATIONS 17
 #define I_UPPER_BOUND 1000
-#define TOTAL_WORK 97
+#define TOTAL_WORK 100
 
 #endif
 
@@ -58,6 +58,7 @@ void testIterators2();
 void testIterators3();
 void testIterators4();
 void testIterators5();
+void testCopyAssignment();
 
 
 ProgressBar myProgressBar(TOTAL_WORK);
@@ -93,6 +94,7 @@ int main()
     testIterators3();
     testIterators4();
     testIterators5();
+    testCopyAssignment();
 
 
     auto finish = std::chrono::steady_clock::now();
@@ -1076,7 +1078,34 @@ void testIterators5()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators5                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators5");
     myProgressBar++;
     #endif
+}
+
+void testCopyAssignment()
+{
+    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+    HashMap<int, int> map1(keysInt.cbegin(), keysInt.cend(),
+                           values.cbegin(), values.cend());
+
+    HashMap<int, int> map2;
+
+    map2 = map1;
+
+    assert(map2.size() == map1.size());
+    assert(map2.capacity() == map1.capacity());
+
+    for (const auto& v: values)
+    {
+        assert(map2[v] == v);
+    }
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testDefaultConstructor                            \n");
+    myProgressBar++;
+    #endif
+
 }
