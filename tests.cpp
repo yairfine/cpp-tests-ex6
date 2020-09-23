@@ -22,13 +22,13 @@
 
 #define ITERATIONS 8
 #define I_UPPER_BOUND 100
-#define TOTAL_WORK 61
+#define TOTAL_WORK 63
 
 #else
 
 #define ITERATIONS 17
 #define I_UPPER_BOUND 1000
-#define TOTAL_WORK 97
+#define TOTAL_WORK 99
 
 #endif
 
@@ -38,6 +38,8 @@ void testAt();
 void testConstructor1();
 void testConstructor1Capacity();
 void testConstructor1Dereferencing();
+void testOperatorAssignment(); 
+void testCopyConstructor();
 void testInsert();
 void testErase();
 void testResizingRules1();
@@ -73,6 +75,8 @@ int main()
     testConstructor1();
     testConstructor1Capacity();
     testConstructor1Dereferencing();
+    testOperatorAssignment();
+    testCopyConstructor();
     testInsert();
     testErase();
     testResizingRules1();
@@ -253,11 +257,11 @@ void testConstructor1()
 
 void testConstructor1Capacity()
 {
-    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<int> keys = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
     std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
-    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
-                                  values.cbegin(), values.cend());
+    HashMap<int, int> map(keys.cbegin(), keys.cend(),
+                          values.cbegin(), values.cend());
 
     assert(map.capacity() == 2 * INITIAL_CAPACITY);
 
@@ -296,6 +300,78 @@ void testConstructor1Dereferencing()
     myProgressBar++;
     #endif
 }
+
+void testOperatorAssignment()
+{
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
+    HashMap<std::string, int> map1(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map2;
+
+    map2 = map1;
+
+    assert(map2.size() == map1.size());
+    assert(map2.capacity() == map1.capacity());
+
+    auto v = values.begin();
+
+    for (const auto& k: keys)
+    {
+        assert(map2[k] == *v);
+        v++;
+    }
+
+    map1.at("a") = 100;
+    assert(map1.at("a") == 100);
+    assert(map2.at("a") == 1);
+
+    map2.at("m") = 130;
+    assert(map2.at("m") == 130);
+    assert(map1.at("m") == 13);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorAssignment");
+    myProgressBar++;
+    #endif
+}
+
+void testCopyConstructor()
+{
+      std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+
+    HashMap<std::string, int> map1(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map2(map1);;
+
+
+    assert(map2.size() == map1.size());
+    assert(map2.capacity() == map1.capacity());
+
+    auto v = values.begin();
+
+    for (const auto& k: keys)
+    {
+        assert(map2[k] == *v);
+        v++;
+    }
+
+    map1.at("a") = 100;
+    assert(map1.at("a") == 100);
+    assert(map2.at("a") == 1);
+
+    map2.at("m") = 130;
+    assert(map2.at("m") == 130);
+    assert(map1.at("m") == 13);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testCopyConstructor");
+    myProgressBar++;
+    #endif
+}
+
 
 void testInsert()
 {
@@ -441,7 +517,7 @@ void testResizingRules2()
     for (int i = 1; i < I_UPPER_BOUND; i++)
     {
         map.erase(i);
-        
+
         assert(map.load_factor() >= 0.25);
     }
     
