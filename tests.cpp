@@ -22,13 +22,13 @@
 
 #define ITERATIONS 8
 #define I_UPPER_BOUND 100
-#define TOTAL_WORK 59
+#define TOTAL_WORK 61
 
 #else
 
 #define ITERATIONS 17
 #define I_UPPER_BOUND 1000
-#define TOTAL_WORK 95
+#define TOTAL_WORK 97
 
 #endif
 
@@ -40,6 +40,8 @@ void testConstructor1Capacity();
 void testConstructor1Dereferencing();
 void testInsert();
 void testErase();
+void testResizingRules1();
+void testResizingRules2();
 void testCapacityAndSizeResizeMap();
 void testClear();
 void testOperatorSubscript();
@@ -73,6 +75,8 @@ int main()
     testConstructor1Dereferencing();
     testInsert();
     testErase();
+    testResizingRules1();
+    testResizingRules2();
     testCapacityAndSizeResizeMap();
     testClear();
     testOperatorSubscript();
@@ -347,6 +351,106 @@ void testErase()
     #endif
 }
 
+void testResizingRules1()
+{
+    HashMap<int, int> map;
+
+    assert(map.size() == INITIAL_SIZE);
+    assert(map.capacity() == INITIAL_CAPACITY);
+
+    map.insert(1, 1);
+
+    assert(map.size() == 1);
+    assert(map.capacity() == INITIAL_CAPACITY);
+
+    map.erase(1);
+
+    assert(map.size() == 0);
+    assert(map.capacity() == 8);
+
+    map.insert(2, 2);
+
+    assert(map.size() == 1);
+    assert(map.capacity() == 8);
+
+    map.erase(2);
+
+    assert(map.size() == 0);
+    assert(map.capacity() == 4);
+
+    map.insert(3, 3);
+    map.insert(4, 4);
+    map.insert(5, 5);
+
+    assert(map.size() == 3);
+    assert(map.capacity() == 4);
+
+    map.erase(3);
+
+    assert(map.size() == 2);
+    assert(map.capacity() == 4);
+
+    map.erase(4);
+
+    assert(map.size() == 1);
+    assert(map.capacity() == 4);
+
+    map.erase(5);
+
+    assert(map.size() == 0);
+    assert(map.capacity() == 2);
+
+    map.insert(6, 6);
+
+    assert(map.size() == 1);
+    assert(map.capacity() == 2);
+
+    map.erase(6);
+
+    assert(map.size() == 0);
+    assert(map.capacity() == 1);
+
+    map.insert(7, 7);
+
+    assert(map.size() == 1);
+    assert(map.capacity() == 2);
+
+    map.erase(7);
+
+    assert(map.size() == 0);
+    assert(map.capacity() == 1);
+
+    
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testResizingRules1");
+    myProgressBar++;
+    #endif
+}
+
+void testResizingRules2()
+{
+    HashMap<int, int> map;
+
+    for (int i = 1; i <= I_UPPER_BOUND; i++)
+    {
+        map.insert(i, i);
+        
+        assert(map.load_factor() <= 0.75);
+    }
+
+    for (int i = 1; i < I_UPPER_BOUND; i++)
+    {
+        map.erase(i);
+        
+        assert(map.load_factor() >= 0.25);
+    }
+    
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testResizingRules2");
+    myProgressBar++;
+    #endif
+}
+
 void testCapacityAndSizeResizeMap()
 {
     HashMap<int, int> map;
@@ -360,6 +464,7 @@ void testCapacityAndSizeResizeMap()
             map.insert(i, i);
 
             assert(map.size() == i);
+            assert(map.load_factor() <= 0.75);
             assert(map.capacity() == INITIAL_CAPACITY * pow(2, n));
 
             i++;
@@ -377,6 +482,7 @@ void testCapacityAndSizeResizeMap()
         while (i >= INITIAL_CAPACITY * pow(2, n) * 0.25)
         {
             assert(map.size() == i);
+            assert(map.load_factor() >= 0.25);
             assert(map.capacity() == INITIAL_CAPACITY * pow(2, n));
 
             map.erase(i);
@@ -431,15 +537,13 @@ void testClear()
     // checking capacity resizing rules
     // in insert you only resize up, and in erase you only resize down
 
-    // after every insert, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
     assert(map.size() == 1);
     assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
     map.erase(1);
 
-    // after every erase, the capacity should maintain the rule: [ 0.25 * capacity <= size <= 0.75 * capacity ].
     assert(map.size() == INITIAL_SIZE);
-    assert(map.capacity() == INITIAL_CAPACITY);
+    assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS - 1));
 
     
     #ifndef VAL
