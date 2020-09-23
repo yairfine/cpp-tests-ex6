@@ -55,6 +55,7 @@ void testIterators1();
 void testIterators2();
 void testIterators3();
 void testIterators4();
+void testIterators5();
 
 
 ProgressBar myProgressBar(TOTAL_WORK);
@@ -87,6 +88,7 @@ int main()
     testIterators2();
     testIterators3();
     testIterators4();
+    testIterators5();
 
 
     auto finish = std::chrono::steady_clock::now();
@@ -947,7 +949,30 @@ void testIterators4()
     
 
     #ifndef VAL
-    myProgressBar.addToOutputMsg("PASS = testIterators4                            \n");
+    myProgressBar.addToOutputMsg("PASS = testIterators4");
+    myProgressBar++;
+    #endif
+}
+
+void testIterators5()
+{
+
+    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+
+    HashMap<int, int> map1(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    HashMap<int, int> map2(keysInt.cbegin(), keysInt.cend(),
+                                  values.cbegin(), values.cend());
+
+    
+    assert(map1.begin() != map2.begin());
+    assert(map1.end() != map2.end());
+    
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS = testIterators5                            \n");
     myProgressBar++;
     #endif
 }
