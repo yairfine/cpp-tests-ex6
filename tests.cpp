@@ -8,29 +8,27 @@
 #include <iostream>
 #include <cassert>
 #include <cmath>
+#include <chrono>
 #include <unordered_map>
 #include <vector>
-#include <chrono>
-
-#define KeyString std::string
-#define KeyInt int
-#define ValueInt int
+#include <set>
 
 #define INITIAL_CAPACITY 16
 #define INITIAL_SIZE 0
+#define RAND_RANGE 1000000
 
 
 #ifdef VAL
 
 #define ITERATIONS 8
 #define I_UPPER_BOUND 100
-#define TOTAL_WORK 57
+#define TOTAL_WORK 58
 
 #else
 
 #define ITERATIONS 17
 #define I_UPPER_BOUND 1000
-#define TOTAL_WORK 93
+#define TOTAL_WORK 94
 
 #endif
 
@@ -48,6 +46,7 @@ void testOperatorSubscript();
 void testOperatorSubscriptConst();
 void testOperatorEqualsAndNotEquals();
 void testOperatorEqualsUnOrderedInteranlLists();
+void testOperatorEqualsAdvanced();
 void testBucketSize();
 void testBucketIndex();
 void testContainsKey();
@@ -79,6 +78,7 @@ int main()
     testOperatorSubscriptConst();
     testOperatorEqualsAndNotEquals();
     testOperatorEqualsUnOrderedInteranlLists();
+    testOperatorEqualsAdvanced();
     testBucketSize();
     testBucketIndex();
     testContainsKey();
@@ -100,7 +100,7 @@ int main()
 
 void testDefaultConstructor()
 {
-    HashMap<KeyString, ValueInt> map;
+    HashMap<std::string, int> map;
 
     assert(map.size() == INITIAL_SIZE);
     assert(map.capacity() == INITIAL_CAPACITY);
@@ -114,10 +114,10 @@ void testDefaultConstructor()
 
 void testAt()
 {
-    std::vector<KeyString> keys = {"a", "b", "c", "d", "e"};
-    std::vector<ValueInt> values = {1, 2, 3, 4, 5};
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e"};
+    std::vector<int> values = {1, 2, 3, 4, 5};
 
-    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map(keys.begin(), keys.end(), values.begin(), values.end());
 
     assert(map.at("a") == 1);
     assert(map.at("b") == 2);
@@ -159,10 +159,10 @@ void testAt()
 
 void testConstructor1()
 {
-    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map(keys.begin(), keys.end(), values.begin(), values.end());
 
     assert(map.size() == 9);
     assert(map.at("a") == 1);
@@ -175,10 +175,10 @@ void testConstructor1()
     assert(map.at("h") == 8);
     assert(map.at("i") == 9);
 
-    std::vector<KeyString> keys2 = {"a", "b", "c", "d", "e", "f", "g", "a", "b", "h", "i"};
-    std::vector<ValueInt> values2 = {1, 2, 3, 4, 5, 6, 7, 100, 200, 8, 9};
+    std::vector<std::string> keys2 = {"a", "b", "c", "d", "e", "f", "g", "a", "b", "h", "i"};
+    std::vector<int> values2 = {1, 2, 3, 4, 5, 6, 7, 100, 200, 8, 9};
 
-    HashMap<KeyString, ValueInt> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
+    HashMap<std::string, int> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
 
     assert(map.size() == 9);
     assert(map2.at("a") == 100);
@@ -195,7 +195,7 @@ void testConstructor1()
     {
         auto it = keys.begin();
         it++;
-        HashMap<KeyString, ValueInt> map(it, keys.end(), values.begin(), values.end());
+        HashMap<std::string, int> map(it, keys.end(), values.begin(), values.end());
         assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
                 "length ~~~ ");
     }
@@ -207,7 +207,7 @@ void testConstructor1()
     {
         auto it = keys.end();
         it--;
-        HashMap<KeyString, ValueInt> map(keys.begin(), it, values.begin(), values.end());
+        HashMap<std::string, int> map(keys.begin(), it, values.begin(), values.end());
         assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
                 "length ~~~ ");
     }
@@ -219,7 +219,7 @@ void testConstructor1()
     {
         auto it = values.begin();
         it++;
-        HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), it, values.end());
+        HashMap<std::string, int> map(keys.begin(), keys.end(), it, values.end());
         assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
                 "length ~~~ ");
     }
@@ -231,7 +231,7 @@ void testConstructor1()
     {
         auto it = values.end();
         it--;
-        HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), it);
+        HashMap<std::string, int> map(keys.begin(), keys.end(), values.begin(), it);
         assert(!" ~~~ Constructor1 should throw an exception if iterators are not at the same "
                 "length ~~~ ");
     }
@@ -247,10 +247,10 @@ void testConstructor1()
 
 void testConstructor1Capacity()
 {
-    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
-    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
     assert(map.capacity() == 2 * INITIAL_CAPACITY);
@@ -299,7 +299,7 @@ void testConstructor1Dereferencing()
 
 void testInsert()
 {
-    HashMap<KeyString, ValueInt> map;
+    HashMap<std::string, int> map;
     
     assert(map.empty() == true);  
     assert(map.capacity() == INITIAL_CAPACITY);
@@ -327,10 +327,10 @@ void testInsert()
 
 void testErase()
 {
-    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
-    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
+    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
+    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 15};
 
-    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
     bool b = map.erase(0);
@@ -353,7 +353,7 @@ void testErase()
 
 void testCapacityAndSizeResizeMap()
 {
-    HashMap<KeyInt, ValueInt> map;
+    HashMap<int, int> map;
 
     int i = 1;
 
@@ -400,7 +400,7 @@ void testCapacityAndSizeResizeMap()
 
 void testClear()
 {
-    HashMap<KeyInt, ValueInt> map;
+    HashMap<int, int> map;
 
     // Insert elements to the Hash map
 
@@ -453,10 +453,10 @@ void testClear()
 
 void testOperatorSubscript()
 {
-    std::vector<KeyString> keys = {"a", "b", "c"};
-    std::vector<ValueInt> values = {1, 2, 3};
+    std::vector<std::string> keys = {"a", "b", "c"};
+    std::vector<int> values = {1, 2, 3};
 
-    HashMap<KeyString, ValueInt> map(keys.cbegin(), keys.cend(), values.cbegin(), values.cend());
+    HashMap<std::string, int> map(keys.cbegin(), keys.cend(), values.cbegin(), values.cend());
 
     assert(map.size() == 3);
 
@@ -514,10 +514,10 @@ void testOperatorSubscript()
 
 void testOperatorSubscriptConst()
 {
-    std::vector<KeyString> keys = {"a", "b", "c"};
-    std::vector<ValueInt> values = {1, 2, 3};
+    std::vector<std::string> keys = {"a", "b", "c"};
+    std::vector<int> values = {1, 2, 3};
 
-    const HashMap<KeyString, ValueInt> constMap(keys.cbegin(), keys.cend(),
+    const HashMap<std::string, int> constMap(keys.cbegin(), keys.cend(),
                                                 values.cbegin(), values.cend());
 
     assert(constMap.size() == 3);
@@ -553,15 +553,15 @@ void testOperatorSubscriptConst()
 
 void testOperatorEqualsAndNotEquals()
 {
-    HashMap<KeyInt, ValueInt> emptyMap1;
-    HashMap<KeyInt, ValueInt> emptyMap2;
+    HashMap<int, int> emptyMap1;
+    HashMap<int, int> emptyMap2;
 
-    std::vector<KeyString> keysString = {"1", "2", "3"};
-    std::vector<ValueInt> values = {1, 2, 3};
+    std::vector<std::string> keysString = {"1", "2", "3"};
+    std::vector<int> values = {1, 2, 3};
 
-    HashMap<KeyString, ValueInt> mapString1(keysString.cbegin(), keysString.cend(),
+    HashMap<std::string, int> mapString1(keysString.cbegin(), keysString.cend(),
                                             values.cbegin(), values.cend());
-    HashMap<KeyString, ValueInt> mapString2(keysString.cbegin(), keysString.cend(),
+    HashMap<std::string, int> mapString2(keysString.cbegin(), keysString.cend(),
                                             values.cbegin(), values.cend());
 
     assert(emptyMap1 == emptyMap2);
@@ -587,7 +587,7 @@ void testOperatorEqualsAndNotEquals()
     assert(mapString1 == mapString2);
     assert(!(mapString1 != mapString2));
 
-    HashMap<KeyInt, ValueInt> map;
+    HashMap<int, int> map;
 
     int i = 1;
     for (int n = 0; n <= ITERATIONS; n++)
@@ -617,16 +617,16 @@ void testOperatorEqualsAndNotEquals()
 
 void testOperatorEqualsUnOrderedInteranlLists()
 {
-    std::vector<KeyInt> keys1 = {0, 1, 2, 3, 16, 17, 18, 19, 35};
-    std::vector<ValueInt> values1 = {0, 1, 2, 3,16, 17, 18, 19, 35};
+    std::vector<int> keys1 = {0, 1, 2, 3, 16, 17, 18, 19, 35};
+    std::vector<int> values1 = {0, 1, 2, 3,16, 17, 18, 19, 35};
 
-    std::vector<KeyInt> keys2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
-    std::vector<ValueInt> values2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
+    std::vector<int> keys2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
+    std::vector<int> values2 = {0, 17, 18, 35, 16, 1, 2, 3, 19};
 
-    HashMap<KeyInt, ValueInt> map1(keys1.begin(), keys1.end(),
+    HashMap<int, int> map1(keys1.begin(), keys1.end(),
                                    values1.begin(), values1.end());
 
-    HashMap<KeyInt, ValueInt> map2(keys2.begin(), keys2.end(),
+    HashMap<int, int> map2(keys2.begin(), keys2.end(),
                                    values2.begin(), values2.end());
 
 
@@ -639,12 +639,50 @@ void testOperatorEqualsUnOrderedInteranlLists()
     #endif
 }
 
+void testOperatorEqualsAdvanced()
+{
+    std::vector<int> vector;
+    std::set<int> set;
+
+    srand(time(NULL));
+
+    for (int i = 0; i < I_UPPER_BOUND; i++)
+    {
+        int randInt = rand() % RAND_RANGE;
+
+        vector.push_back(randInt);
+        set.insert(randInt);
+    }
+
+    HashMap<int, int> map1;
+    HashMap<int, int> map2;
+
+    for (auto it = vector.begin(); it != vector.end(); it++)
+    {
+        map1.insert(*it, *it);
+    }
+
+    for (auto it = set.begin(); it != set.end(); it++)
+    {
+        map2.insert(*it, *it);
+    }
+    
+
+    assert(map1 == map2);
+
+
+    #ifndef VAL
+    myProgressBar.addToOutputMsg("PASS - testOperatorEqualsAdvanced");
+    myProgressBar++;
+    #endif
+}
+
 void testBucketSize()
 {
-    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map(keys.begin(), keys.end(), values.begin(), values.end());
 
     try
     {
@@ -678,10 +716,10 @@ void testBucketSize()
 
 void testBucketIndex()
 {
-    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map(keys.begin(), keys.end(), values.begin(), values.end());
 
     try
     {
@@ -715,10 +753,10 @@ void testBucketIndex()
 
 void testContainsKey()
 {
-    std::vector<KeyString> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    std::vector<ValueInt> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    std::vector<std::string> keys = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-    HashMap<KeyString, ValueInt> map(keys.begin(), keys.end(), values.begin(), values.end());
+    HashMap<std::string, int> map(keys.begin(), keys.end(), values.begin(), values.end());
 
     for (auto it = keys.begin(); it != keys.end(); it++)
     {
@@ -737,7 +775,7 @@ void testContainsKey()
 void testIteratorsEmpty()
 {
     // this unordered_map part is only for demonstrating..
-    std::unordered_map<KeyString, ValueInt> emptyStdMap;
+    std::unordered_map<std::string, int> emptyStdMap;
 
     auto beginStdMap = emptyStdMap.begin();
     auto endStdMap = emptyStdMap.end();
@@ -752,7 +790,7 @@ void testIteratorsEmpty()
     }
 
     // this is the real test here:
-    HashMap<KeyString, ValueInt> emptyMap;
+    HashMap<std::string, int> emptyMap;
 
     auto iterBegin = emptyMap.begin();
     auto iterEnd = emptyMap.end();
@@ -775,10 +813,10 @@ void testIteratorsEmpty()
 
 void testIterators1()
 {
-    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
-    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 15};
+    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 15};
+    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 15};
 
-    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
@@ -811,13 +849,13 @@ void testIterators1()
 void testIterators2()
 {
 
-    std::vector<KeyInt> keysInt = {3, 4, 5, 6, 15};
-    std::vector<ValueInt> values = {3, 4, 5, 6, 15};
+    std::vector<int> keysInt = {3, 4, 5, 6, 15};
+    std::vector<int> values = {3, 4, 5, 6, 15};
 
-    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
-    const HashMap<KeyInt, ValueInt> constMap(keysInt.cbegin(), keysInt.cend(),
+    const HashMap<int, int> constMap(keysInt.cbegin(), keysInt.cend(),
                                              values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
@@ -870,10 +908,10 @@ void testIterators2()
 void testIterators3()
 {
 
-    std::vector<KeyInt> keysInt = {1, 4, 5, 6, 9, 14};
-    std::vector<ValueInt> values = {1, 4, 5, 6, 9, 14};
+    std::vector<int> keysInt = {1, 4, 5, 6, 9, 14};
+    std::vector<int> values = {1, 4, 5, 6, 9, 14};
 
-    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
@@ -896,10 +934,10 @@ void testIterators3()
 void testIterators4()
 {
 
-    std::vector<KeyInt> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-    std::vector<ValueInt> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<int> keysInt = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
-    HashMap<KeyInt, ValueInt> map(keysInt.cbegin(), keysInt.cend(),
+    HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
                                   values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
