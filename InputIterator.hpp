@@ -25,6 +25,13 @@ public:
         mutable bool _alreadyDereferenced;
     
     public:
+
+        typedef T value_type;
+        typedef T &reference;
+        typedef T *pointer;
+        typedef std::ptrdiff_t difference_type;
+        typedef std::input_iterator_tag iterator_category;
+
         iterator(const std::vector<T> &vector, bool isEnd) : _vector(vector), _size(_vector.size()),
                                                              _alreadyDereferenced(false)
         {
