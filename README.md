@@ -18,7 +18,7 @@ $ cd cpp-tests-ex6
 
 Compile the tests, using:
 ```$ xslt
-$ g++ tests.cpp -o compiledTests
+$ g++ tests.cpp -std=c++14 -o compiledTests
 ```
 
 Run the tests, using:
@@ -30,7 +30,7 @@ LINUX:    $ ./compiledTests
 ## Valgrind
 For running with Valgrind, **compile again** with `-DVAL` flag:
 ```$ xslt
-$ g++ tests.cpp -DVAL -o compiledTests
+$ g++ tests.cpp -std=c++14 -DVAL -o compiledTests
 ```
 And run:
 ```$ xslt
