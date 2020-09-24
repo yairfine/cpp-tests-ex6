@@ -192,7 +192,7 @@ void testConstructor1()
 
     HashMap<std::string, int> map2(keys2.begin(), keys2.end(), values2.begin(), values2.end());
 
-    assert(map.size() == 9);
+    assert(map2.size() == 9);
     assert(map2.at("a") == 100);
     assert(map2.at("b") == 200);
     assert(map2.at("c") == 3);
@@ -202,6 +202,7 @@ void testConstructor1()
     assert(map2.at("g") == 7);
     assert(map2.at("h") == 8);
     assert(map2.at("i") == 9);
+
 
     try
     {
