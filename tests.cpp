@@ -538,7 +538,7 @@ void testCapacityAndSizeResizeMap()
 {
     HashMap<int, int> map;
 
-    int i = 1;
+    size_t i = 1;
 
     for (int n = 0; n <= ITERATIONS; n++)
     {
@@ -589,7 +589,7 @@ void testClear()
 
     // Insert elements to the Hash map
 
-    int i = 1;
+    size_t i = 1;
 
     for (int n = 0; n <= ITERATIONS; n++)
     {
