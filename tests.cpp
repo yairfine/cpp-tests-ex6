@@ -118,6 +118,7 @@ void testDefaultConstructor()
     assert(map.capacity() == INITIAL_CAPACITY);
     assert(map.empty() == true);
 
+
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testDefaultConstructor");
     myProgressBar++;
@@ -162,6 +163,7 @@ void testAt()
     }
 
     assert (map.size() == 5);
+
 
     #ifndef VAL
     myProgressBar.addToOutputMsg("PASS - testAt");
@@ -612,6 +614,7 @@ void testClear()
 
     map.clear();
 
+    assert(map.empty() == true);
     assert(map.size() == INITIAL_SIZE);
     assert(map.capacity() == INITIAL_CAPACITY * pow(2, ITERATIONS));
 
@@ -1122,7 +1125,7 @@ void testIterators4()
     std::vector<int> values = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 
     HashMap<int, int> map(keysInt.cbegin(), keysInt.cend(),
-                                  values.cbegin(), values.cend());
+                          values.cbegin(), values.cend());
 
     std::vector<int>::const_iterator vecIter = values.begin();
 
