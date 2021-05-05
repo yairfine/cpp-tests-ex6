@@ -1,4 +1,4 @@
-# Tests for ex6 - HashMap - summer course c++
+# Tests for ex6 - HashMap - c++ course
 ## Usage
 On your project directory, clone the tests using:
 ```$xslt
