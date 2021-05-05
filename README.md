@@ -1,19 +1,19 @@
-# Tests for ex6 - summer course c++
+# Tests for ex6 - HashMap - summer course c++
 ## Usage
 On your project directory, clone the tests using:
 ```$xslt
-$ git clone https://github.com/yairfine/cpp-tests-ex6.git
+$ git clone https://github.com/yairfine/cpp-hashmap-tests.git
 ```
 
 Copy your `HashMap.hpp` file to the tests directory, using:
 ```$xslt
-WINDOWS:  $ copy .\HashMap.hpp .\cpp-tests-ex6
-LINUX:    $ cp HashMap.hpp ./cpp-tests-ex6
+WINDOWS:  $ copy .\HashMap.hpp .\cpp-hashmap-tests
+LINUX:    $ cp HashMap.hpp ./cpp-hashmap-tests
 ```
 
 Move to the tests directory, using:
 ```$xslt
-$ cd cpp-tests-ex6
+$ cd cpp-hashmap-tests
 ```
 
 Compile the tests, using:
